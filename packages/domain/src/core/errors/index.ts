@@ -17,3 +17,15 @@ export class InvalidUserDataError extends DomainError {
     super(message);
   }
 }
+
+export class UnauthorizedError extends DomainError {
+  constructor() {
+    super('Unauthorized');
+  }
+}
+
+export class InvalidTokenError extends DomainError {
+  constructor() {
+    super('Invalid token');
+  }
+}
