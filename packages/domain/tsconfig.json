@@ -2,14 +2,8 @@
   "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src",
-
-    //library + monorepo
-    "declaration": true,
-    "composite": true,
-    "sourceMap": true,
-    "declarationMap": true
+    "rootDir": "./src"
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "./dist"]
 }
