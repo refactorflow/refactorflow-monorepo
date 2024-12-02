@@ -1,16 +1,9 @@
-import express, { Express, Request, Response } from 'express';
-import cors from 'cors';
+import { APPLICATION_PORT, startExpressServer } from './configuration/express.configuration.js';
+import { configMiddleware } from './configuration/express.configuration.js';
 
-const app: Express = express();
-const port = process.env.PORT || 8080;
+const setupApplication = async () => {
+  await configMiddleware();
+  await startExpressServer(APPLICATION_PORT);
+};
 
-app.use(cors());
-app.use(express.json());
-
-app.get('/health', (req: Request, res: Response) => {
-  res.json({ status: 'ok' });
-});
-
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-});
+setupApplication();
