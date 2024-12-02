@@ -5,7 +5,9 @@
     "rootDir": "./src",
     "baseUrl": "src",
     "paths": {
-      "@config/*": ["configuration/*"]
+      "@config/*": ["configuration/*"],
+      "@infrastructure/*": ["infrastructure/*"],
+      "@presentation/*": ["presentation/*"]
     }
   },
   "include": ["./src/**/*"],

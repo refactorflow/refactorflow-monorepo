@@ -1,5 +1,5 @@
-import resend from '@config/resend.configuration.js';
 import { EmailService } from '@repo/domain';
+import resend from '../../../configuration/resend.configuration.js';
 
 export class ResendEmailService implements EmailService {
   async sendWelcomeEmail(to: string, name: string): Promise<void> {

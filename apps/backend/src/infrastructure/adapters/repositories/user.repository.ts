@@ -1,6 +1,5 @@
-import prisma from '@config/prisma.configuration.js';
-
 import { User, UserRepository } from '@repo/domain';
+import prisma from '../../../configuration/prisma.configuration.js';
 
 export class PrismaUserRepository implements UserRepository {
   async save(user: User): Promise<void> {
