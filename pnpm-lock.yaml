@@ -45,6 +45,9 @@ importers:
         specifier: ^4.21.1
         version: 4.21.1
     devDependencies:
+      '@repo/domain':
+        specifier: workspace:*
+        version: link:../../packages/domain
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
