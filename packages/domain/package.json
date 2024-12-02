@@ -7,13 +7,14 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "clean": "rm -rf dist",
+    "clean": "rimraf dist",
     "lint": "eslint src --ext .ts",
     "test": "jest"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^22.10.1",
+    "rimraf": "^6.0.1",
     "typescript": "^5.7.2"
   }
 }
