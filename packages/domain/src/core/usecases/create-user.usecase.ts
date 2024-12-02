@@ -1,6 +1,7 @@
 import { User } from '../entities/user.entity.js';
 import { UserRepository } from '../../ports/repositories/user.repository.js';
 import { EmailService } from '../../ports/services/email.service.js';
+import { UserAlreadyExistsError } from '../errors/index.js';
 
 export class CreateUserUseCase {
   constructor(
@@ -11,7 +12,7 @@ export class CreateUserUseCase {
   async execute(props: { email: string; name: string }): Promise<User> {
     const existingUser = await this.userRepository.findByEmail(props.email);
 
-    if (existingUser) throw new Error('User already exists');
+    if (existingUser) throw new UserAlreadyExistsError(props.email);
 
     const user = User.create(props);
     await this.userRepository.save(user);
