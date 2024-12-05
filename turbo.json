@@ -12,6 +12,15 @@
       "outputs": ["dist/**"],
       "cache": false
     },
+    "db:generate": {
+      "dependsOn": ["^db:generate"]
+    },
+    "db:migrate": {
+      "dependsOn": ["^db:migrate"]
+    },
+    "db:push": {
+      "dependsOn": ["^db:push"]
+    },
     "clean": {
       "dependsOn": ["^clean"]
     },
