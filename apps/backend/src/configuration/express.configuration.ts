@@ -21,8 +21,6 @@ export const startExpressServer = (port: number): Promise<http.Server> => {
     const server = app
       .listen(port, () => {
         resolve(server);
-
-        console.log(`Server is running on port ${port}`);
       })
       .on('error', (err: Error) => {
         reject(err);

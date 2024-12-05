@@ -10,6 +10,7 @@ const setupApplication = async () => {
   // Init Repositories
   const userRepository = new PrismaUserRepository();
   const sessionRepository = new PrismaSessionRepository();
+
   // Init Services
   const userService = new UserService(userRepository);
   const sessionService = new SessionService(sessionRepository);
@@ -24,4 +25,6 @@ const setupApplication = async () => {
   await startExpressServer(APPLICATION_PORT);
 };
 
-setupApplication();
+setupApplication().then(() => {
+  console.log(`Server is running on port ${APPLICATION_PORT} 🚀`);
+});

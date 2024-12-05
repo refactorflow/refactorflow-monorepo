@@ -4,7 +4,8 @@
   "type": "module",
   "description": "",
   "scripts": {
-    "dev": "node dist/index.js --turbopack",
+    "dev": "nodemon",
+    "start": "node dist/index.js --turbopack",
     "build": "tsc",
     "db:generate": "prisma migrate dev",
     "db:migrate": "prisma migrate deploy",
@@ -22,8 +23,10 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.1",
     "copyfiles": "^2.4.1",
+    "nodemon": "^3.1.7",
     "prisma": "^6.0.1",
     "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "5.5.4"
   },
