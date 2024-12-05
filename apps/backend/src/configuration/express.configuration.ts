@@ -1,19 +1,19 @@
-import express, { Express } from 'express';
+import express, { type Express } from 'express';
 import cors from 'cors';
 import * as http from 'http';
 
-import { userRoutes } from '../presentation/routes/user.routes.js';
+import { IAuthMiddleware } from '../middlewares/auth.middleware.js';
 
 export const app: Express = express();
 
 export const APPLICATION_PORT = 8080;
 
-export const configMiddleware = async () => {
+export const configMiddleware = async (authMiddleware: IAuthMiddleware) => {
   app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  app.use('/api/users', userRoutes);
+  app.use('/authenticated-route*', authMiddleware.authenticate);
 };
 
 export const startExpressServer = (port: number): Promise<http.Server> => {

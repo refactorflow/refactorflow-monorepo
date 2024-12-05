@@ -1,13 +1,19 @@
-import { Session, SessionRepository, UnauthorizedError, UserRepository } from '@repo/domain';
-import { NextFunction, Request } from 'express';
+import { ISessionService, IUserService, Session, UnauthorizedError } from '@repo/domain';
+import { NextFunction, Response, Request } from 'express';
 
-export class AuthMiddleware {
-  private readonly sessionRepository: SessionRepository;
-  private readonly userRepository: UserRepository;
+export interface IAuthMiddleware {
+  authenticate(req: Request, res: Response, next: NextFunction): Promise<void>;
+}
 
-  constructor(sessionRepository: SessionRepository, userRepository: UserRepository) {
-    this.sessionRepository = sessionRepository;
-    this.userRepository = userRepository;
+export class AuthMiddleware implements IAuthMiddleware {
+  private readonly sessionService: ISessionService;
+  private readonly userService: IUserService;
+
+  constructor(sessionService: ISessionService, userService: IUserService) {
+    this.sessionService = sessionService;
+    this.userService = userService;
+
+    this.authenticate = this.authenticate.bind(this);
   }
 
   async authenticate(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -15,7 +21,7 @@ export class AuthMiddleware {
 
     if (!token) return next(new UnauthorizedError());
 
-    const sessions = await this.sessionRepository.findBySessionToken(token);
+    const sessions = await this.sessionService.findBySessionToken(token);
 
     const checkSessionIsActive = sessions?.every((session) => Session.isActive(session));
 

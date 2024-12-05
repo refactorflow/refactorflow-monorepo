@@ -1,18 +1,29 @@
 import { User, UserRepository } from '@repo/domain';
 import prisma from '../../../configuration/prisma.configuration.js';
+import { UserMapper } from '../../mappers/user.mapper.js';
 
 export class PrismaUserRepository implements UserRepository {
   async save(user: User): Promise<void> {
     try {
       await prisma.user.create({
+        data: UserMapper.toPrisma(user),
+      });
+    } catch (error) {
+      throw new Error('Failed to save user');
+    }
+  }
+
+  async update(user: User): Promise<void> {
+    try {
+      await prisma.user.update({
+        where: { id: user.id },
         data: {
-          id: user.id,
           email: user.email,
           name: user.name,
         },
       });
     } catch (error) {
-      throw new Error('Failed to save user');
+      throw new Error('Failed to update user');
     }
   }
 

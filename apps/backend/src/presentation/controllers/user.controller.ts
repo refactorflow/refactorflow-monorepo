@@ -1,15 +1,10 @@
+import { IUserService, User } from '@repo/domain';
 import { Request, Response } from 'express';
-import { CreateUserUseCase } from '@repo/domain';
+import { app } from '../../configuration/express.configuration.js';
 import { CreateUserDTO } from '../dtos/user.dto.js';
 
-export class UserController {
-  private readonly createUserUseCase: CreateUserUseCase;
-
-  constructor(createUserUseCase: CreateUserUseCase) {
-    this.createUserUseCase = createUserUseCase;
-  }
-
-  async createUser(req: Request, res: Response): Promise<void> {
+export const UserControllerRefact = (userService: IUserService) => {
+  app.post('/user', async (req: Request, res: Response) => {
     const result = CreateUserDTO.safeParse(req.body);
 
     if (!result.success) {
@@ -17,9 +12,9 @@ export class UserController {
       return;
     }
 
-    const { email, name } = result.data;
-    await this.createUserUseCase.execute({ email, name });
+    const user = User.create(result.data);
+    await userService.save(user);
 
     res.status(201).json({ message: 'User created successfully' });
-  }
-}
+  });
+};

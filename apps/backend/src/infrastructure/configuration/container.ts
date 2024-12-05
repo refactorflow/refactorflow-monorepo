@@ -1,4 +1,4 @@
-import { CreateUserUseCase } from '@repo/domain';
+import { CreateUserUseCase, UpdateUserUseCase } from '@repo/domain';
 import { PrismaUserRepository } from '../adapters/repositories/user.repository.js';
 import { ResendEmailService } from '../adapters/services/email.service.js';
 
@@ -11,7 +11,7 @@ export class Container {
 
   // Use Cases
   private static createUserUseCase: CreateUserUseCase;
-
+  private static updateUserUseCase: UpdateUserUseCase;
   // Repository getters
   static getUserRepository() {
     if (!this.userRepository) {
@@ -34,5 +34,12 @@ export class Container {
       this.createUserUseCase = new CreateUserUseCase(this.getUserRepository(), this.getEmailService());
     }
     return this.createUserUseCase;
+  }
+
+  static getUpdateUserUseCase() {
+    if (!this.updateUserUseCase) {
+      this.updateUserUseCase = new UpdateUserUseCase(this.getUserRepository());
+    }
+    return this.updateUserUseCase;
   }
 }
