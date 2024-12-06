@@ -13,7 +13,7 @@ export const ENDPOINT = {
     BY_ID: '/users/:id',
     PROFILE: '/users/profile',
     UPDATE: '/users/:id',
-    DELETE: '/users/:id',
+    DELETE: '/users/delete',
   },
 
   PROTECTED: '/protected',

@@ -54,4 +54,12 @@ export class PrismaUserRepository implements UserRepository {
       throw new Error('Failed to find user by id');
     }
   }
+
+  async delete(id: string): Promise<void> {
+    try {
+      await prisma.user.delete({ where: { id } });
+    } catch (error) {
+      throw new Error('Failed to delete user');
+    }
+  }
 }

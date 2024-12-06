@@ -25,7 +25,11 @@ export class AuthMiddleware implements IAuthMiddleware {
 
     const checkSessionIsActive = sessions?.every((session) => Session.isActive(session));
 
-    if (!checkSessionIsActive) return next(new UnauthorizedError());
+    const activeSession = sessions?.find((session) => Session.isActive(session));
+
+    if (!checkSessionIsActive || !activeSession) return next(new UnauthorizedError());
+
+    req.body.id = activeSession.userId;
 
     next();
   }
