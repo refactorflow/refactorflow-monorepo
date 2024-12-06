@@ -8,4 +8,8 @@ export class User {
   static create(props: { email: string; name: string }): User {
     return new User(crypto.randomUUID(), props.email, props.name);
   }
+
+  static update(props: { id: string; email: string; name: string }): User {
+    return new User(props.id, props.email, props.name);
+  }
 }

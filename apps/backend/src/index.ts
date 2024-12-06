@@ -4,7 +4,7 @@ import { configMiddleware } from './configuration/express.configuration.js';
 import { PrismaUserRepository } from './infrastructure/adapters/repositories/user.repository.js';
 import { PrismaSessionRepository } from './infrastructure/adapters/repositories/session.repository.js';
 import { AuthMiddleware } from './middlewares/auth.middleware.js';
-import { UserControllerRefact } from './presentation/controllers/user.controller.js';
+import { setupUserController } from './presentation/controllers/user.controller.js';
 
 const setupApplication = async () => {
   // Init Repositories
@@ -15,13 +15,13 @@ const setupApplication = async () => {
   const userService = new UserService(userRepository);
   const sessionService = new SessionService(sessionRepository);
 
-  // Setup Middlewares
+  //Config Middleware
   const authMiddleware = new AuthMiddleware(sessionService, userService);
-
-  // Init Controllers
-  UserControllerRefact(userService);
-
   await configMiddleware(authMiddleware);
+
+  // Setup Controllers
+  setupUserController(userService);
+
   await startExpressServer(APPLICATION_PORT);
 };
 

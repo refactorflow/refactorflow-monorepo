@@ -5,7 +5,7 @@
   "description": "",
   "scripts": {
     "dev": "nodemon",
-    "start": "node dist/index.js --turbopack",
+    "start": "node dist/index.js",
     "build": "tsc",
     "db:generate": "prisma migrate dev",
     "db:migrate": "prisma migrate deploy",

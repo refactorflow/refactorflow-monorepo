@@ -13,7 +13,7 @@ export const configMiddleware = async (authMiddleware: IAuthMiddleware) => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  app.use('/authenticated-route*', authMiddleware.authenticate);
+  app.use('/protected/*', authMiddleware.authenticate);
 };
 
 export const startExpressServer = (port: number): Promise<http.Server> => {
