@@ -16,5 +16,10 @@ export const ENDPOINT = {
     DELETE: '/users/delete',
   },
 
+  CHALLENGES: {
+    BASE: '/challenges',
+    CREATE: '/challenges/create',
+  },
+
   PROTECTED: '/protected',
 };

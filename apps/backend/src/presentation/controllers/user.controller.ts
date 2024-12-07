@@ -1,9 +1,9 @@
-import { IUserService, UnexpectedError } from '@repo/domain';
 import { NextFunction, Request, Response } from 'express';
 import { app } from '../../configuration/express.configuration.js';
+import { inputValidationMiddleware } from '../../middlewares/input-validation.middleware.js';
+import { IUserService, UnexpectedError } from '@repo/domain';
 import { UpdateUserDTO } from '../dtos/user.dto.js';
 import { ENDPOINT } from '../../configuration/endpoint.configuration.js';
-import { inputValidationMiddleware } from '../../middlewares/input-validation.middleware.js';
 
 export const setupUserController = (userService: IUserService) => {
   app.patch(

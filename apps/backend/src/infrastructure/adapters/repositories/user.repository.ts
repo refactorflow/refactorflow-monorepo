@@ -1,5 +1,5 @@
-import { User, UserRepository } from '@repo/domain';
 import prisma from '../../../configuration/prisma.configuration.js';
+import { User, UserRepository } from '@repo/domain';
 import { UserMapper } from '../../mappers/user.mapper.js';
 
 export class PrismaUserRepository implements UserRepository {

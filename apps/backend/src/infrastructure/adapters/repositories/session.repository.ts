@@ -1,5 +1,5 @@
-import { Session, SessionRepository } from '@repo/domain';
 import prisma from '../../../configuration/prisma.configuration.js';
+import { Session, SessionRepository } from '@repo/domain';
 import { SessionMapper } from '../../mappers/session.mapper.js';
 
 export class PrismaSessionRepository implements SessionRepository {
