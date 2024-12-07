@@ -43,6 +43,7 @@ model User {
   email         String    @unique
   emailVerified DateTime?
   image         String?
+  role          Role      @default(USER)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
@@ -60,6 +61,11 @@ model Challenge {
   createdBy       String
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
+}
+
+enum Role {
+  ADMIN
+  USER
 }
 
 enum Difficulty {

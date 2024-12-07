@@ -35,7 +35,7 @@ export class PrismaUserRepository implements UserRepository {
 
       if (!user) return null;
 
-      return new User(user.id, user.email, user.name);
+      return UserMapper.toDomain(user);
     } catch (error) {
       throw new Error('Failed to find user by email');
     }
@@ -49,7 +49,7 @@ export class PrismaUserRepository implements UserRepository {
 
       if (!user) return null;
 
-      return new User(user.id, user.email, user.name);
+      return UserMapper.toDomain(user);
     } catch (error) {
       throw new Error('Failed to find user by id');
     }

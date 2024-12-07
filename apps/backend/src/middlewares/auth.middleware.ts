@@ -34,6 +34,18 @@ export class AuthMiddleware implements IAuthMiddleware {
     next();
   }
 
+  async admin(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const token = this.extractToken(req, next);
+
+    if (!token) return next(new UnauthorizedError());
+
+    const sessions = await this.sessionService.findBySessionToken(token);
+
+    const checkSessionIsActive = sessions?.every((session) => Session.isActive(session));
+
+    const activeSession = sessions?.find((session) => Session.isActive(session));
+  }
+
   private extractToken(req: Request, next: NextFunction): string | null {
     const tokenAuthorization = req.headers['authorization'];
     const token = tokenAuthorization?.split(' ')[1];
