@@ -8,7 +8,7 @@ export const inputValidationMiddleware = (schema: ZodSchema) => {
 
     if (!result.success) {
       const detail = result.error.errors.map((err) => `${err.path.join('.')}: ${err.message}`).join(', ');
-      next(new BadRequestError(detail));
+      return next(new BadRequestError(detail));
     }
 
     next();
