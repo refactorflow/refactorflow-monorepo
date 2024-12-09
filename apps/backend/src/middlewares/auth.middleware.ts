@@ -1,60 +1,57 @@
 import { ISessionService, IUserService, Session, UnauthorizedError } from '@repo/domain';
 import { NextFunction, Response, Request } from 'express';
+import { TokenService } from '../infrastructure/adapters/services/token.service.js';
 
 export interface IAuthMiddleware {
   authenticate(req: Request, res: Response, next: NextFunction): Promise<void>;
 }
 
 export class AuthMiddleware implements IAuthMiddleware {
-  private readonly sessionService: ISessionService;
-  private readonly userService: IUserService;
-
-  constructor(sessionService: ISessionService, userService: IUserService) {
-    this.sessionService = sessionService;
-    this.userService = userService;
-
+  constructor(
+    private readonly sessionService: ISessionService,
+    private readonly userService: IUserService,
+    private readonly tokenService: TokenService
+  ) {
     this.authenticate = this.authenticate.bind(this);
+    this.authenticateAdmin = this.authenticateAdmin.bind(this);
   }
 
   async authenticate(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const token = this.extractToken(req, next);
+    try {
+      const session = await this.validateSession(req);
+      req.body.id = session.userId;
 
-    if (!token) return next(new UnauthorizedError());
-
-    const sessions = await this.sessionService.findBySessionToken(token);
-
-    const checkSessionIsActive = sessions?.every((session) => Session.isActive(session));
-
-    const activeSession = sessions?.find((session) => Session.isActive(session));
-
-    if (!checkSessionIsActive || !activeSession) return next(new UnauthorizedError());
-
-    req.body.id = activeSession.userId;
-
-    next();
-  }
-
-  async admin(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const token = this.extractToken(req, next);
-
-    if (!token) return next(new UnauthorizedError());
-
-    const sessions = await this.sessionService.findBySessionToken(token);
-
-    const checkSessionIsActive = sessions?.every((session) => Session.isActive(session));
-
-    const activeSession = sessions?.find((session) => Session.isActive(session));
-  }
-
-  private extractToken(req: Request, next: NextFunction): string | null {
-    const tokenAuthorization = req.headers['authorization'];
-    const token = tokenAuthorization?.split(' ')[1];
-
-    if (!token) {
+      next();
+    } catch (error) {
       next(new UnauthorizedError());
-      return null;
+    }
+  }
+
+  async authenticateAdmin(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const session = await this.validateSession(req);
+      const user = await this.userService.findById(session.userId);
+
+      if (user?.role !== 'ADMIN') {
+        throw new UnauthorizedError();
+      }
+
+      req.body.id = user.id;
+      next();
+    } catch (error) {
+      next(new UnauthorizedError());
+    }
+  }
+
+  private async validateSession(req: Request): Promise<Session> {
+    const token = this.tokenService.extract(req);
+    const sessions = await this.sessionService.findBySessionToken(token);
+    const activeSession = sessions?.find(Session.isActive);
+
+    if (!activeSession) {
+      throw new UnauthorizedError();
     }
 
-    return token;
+    return activeSession;
   }
 }
