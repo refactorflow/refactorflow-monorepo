@@ -1,7 +1,11 @@
 import { UnexpectedError } from '@repo/domain';
 import { Request } from 'express';
 
-export class TokenService {
+export interface ITokenService {
+  extract(req: Request): string;
+}
+
+export class TokenService implements ITokenService {
   constructor() {
     this.extract = this.extract.bind(this);
   }
