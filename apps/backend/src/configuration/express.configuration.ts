@@ -14,6 +14,7 @@ export const configMiddleware = async (authMiddleware: IAuthMiddleware) => {
   app.use(express.urlencoded({ extended: true }));
 
   app.use('/protected/*', authMiddleware.authenticate);
+  app.use('/admin/*', authMiddleware.authenticateAdmin);
 };
 
 export const startExpressServer = (port: number): Promise<http.Server> => {

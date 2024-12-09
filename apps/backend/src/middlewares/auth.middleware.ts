@@ -4,6 +4,7 @@ import { TokenService } from '../infrastructure/adapters/services/token.service.
 
 export interface IAuthMiddleware {
   authenticate(req: Request, res: Response, next: NextFunction): Promise<void>;
+  authenticateAdmin(req: Request, res: Response, next: NextFunction): Promise<void>;
 }
 
 export class AuthMiddleware implements IAuthMiddleware {

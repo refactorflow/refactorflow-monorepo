@@ -22,4 +22,5 @@ export const ENDPOINT = {
   },
 
   PROTECTED: '/protected',
+  ADMIN: '/admin',
 };

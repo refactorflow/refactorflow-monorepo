@@ -7,7 +7,7 @@ import { ENDPOINT } from '../../configuration/endpoint.configuration.js';
 
 export const setupChallengeController = (challengeService: IChallengeService) => {
   app.post(
-    ENDPOINT.CHALLENGES.CREATE,
+    ENDPOINT.ADMIN + ENDPOINT.CHALLENGES.CREATE,
     inputValidationMiddleware(CreateChallengeDTO),
     async (req: Request, res: Response, next: NextFunction) => {
       try {
